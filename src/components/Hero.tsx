@@ -7,12 +7,18 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 import { ShieldMark } from "./Logo";
+import { usePointerTilt } from "../lib/motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 function SwapVisual() {
+  const { ref, rotateX, rotateY } = usePointerTilt({ max: 9 });
+
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[520px]">
+    <div
+      ref={ref}
+      className="perspective-1400 relative mx-auto aspect-square w-full max-w-[520px]"
+    >
       {/* ambient glow */}
       <div className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(1,167,143,0.34),transparent_62%)] blur-2xl" />
 
@@ -23,12 +29,13 @@ function SwapVisual() {
       {/* ghost shield behind */}
       <ShieldMark className="absolute left-1/2 top-1/2 h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2 opacity-[0.07] blur-[1px]" />
 
-      {/* swap card */}
+      {/* swap card — top-left anchored to orbit center, extends down-right */}
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, delay: 0.5, ease }}
-        className="glass absolute left-1/2 top-1/2 w-[88%] max-w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-5 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]"
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="glass absolute left-[85%] top-1/2 w-[88%] max-w-[400px] rounded-[28px] p-5 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] will-change-transform"
       >
         <div className="flex items-center justify-between px-1 pb-4">
           <span className="text-xs font-bold uppercase tracking-[0.18em] text-mint-pale/50">
@@ -86,24 +93,6 @@ function SwapVisual() {
         </div>
       </motion.div>
 
-      {/* floating chips */}
-      {[
-        { t: "BTC", c: "top-2 left-4", d: 0.8 },
-        { t: "USDC", c: "bottom-6 right-2", d: 1 },
-        { t: "USD", c: "top-1/3 -right-2", d: 1.2 },
-        { t: "EUR", c: "bottom-2 left-10", d: 1.4 },
-      ].map((chip) => (
-        <motion.span
-          key={chip.t}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: chip.d, ease }}
-          className={`absolute ${chip.c} animate-float rounded-full border border-mint/15 bg-ink-deep/80 px-3 py-1.5 text-xs font-bold text-mint-pale/80 backdrop-blur`}
-          style={{ animationDelay: `${chip.d}s` }}
-        >
-          {chip.t}
-        </motion.span>
-      ))}
     </div>
   );
 }
