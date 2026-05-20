@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# brand assets — large PDFs (>100MB GitHub limit)
+brand/SafeSwapLogo and VIsual Identity.pdf
