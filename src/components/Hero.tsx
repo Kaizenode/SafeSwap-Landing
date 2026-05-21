@@ -35,7 +35,7 @@ function SwapVisual() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, delay: 0.5, ease }}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="glass absolute left-[85%] top-1/2 w-[88%] max-w-[400px] rounded-[28px] p-5 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] will-change-transform"
+        className="glass absolute left-[55%] top-1/2 w-[88%] max-w-[400px] rounded-[28px] p-5 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] will-change-transform"
       >
         <div className="flex items-center justify-between px-1 pb-4">
           <span className="text-xs font-bold uppercase tracking-[0.18em] text-mint-pale/50">
